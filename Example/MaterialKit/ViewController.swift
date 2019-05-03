@@ -10,17 +10,18 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         let hamburgerButton = MKButton(frame: CGRect(x: 0, y: 0, width: 44, height: 32))
-        hamburgerButton.setImage(UIImage(named: "uibaritem_icon.png"), forState: .Normal)
+        hamburgerButton.setImage(UIImage(named: "uibaritem_icon.png"), for: .normal)
         hamburgerButton.maskEnabled = false
         hamburgerButton.backgroundAnimationEnabled = false
         hamburgerButton.rippleDuration = 0.15
-        hamburgerButton.addTarget(self, action: Selector("toggleDrawer"), forControlEvents: UIControlEvents.TouchUpInside)
+        hamburgerButton.contentMode = .scaleAspectFit
+        hamburgerButton.addTarget(self, action: #selector(self.toggleDrawer), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hamburgerButton)
     }
 
-    func toggleDrawer() {
+    @objc func toggleDrawer() {
         if let sideDrawerViewController = self.sideDrawerViewController {
             sideDrawerViewController.toggleDrawer()
         }
@@ -29,10 +30,11 @@ class ViewController: UIViewController {
     @IBAction func cardViewClicked(sender: AnyObject) {
         let snackbar = MKSnackbar(
             withTitle: "You clicked on CardView\nThis is a SnackBar :)",
-            withDuration: nil,
+            withDuration: 3.5,
             withTitleColor: nil,
             withActionButtonTitle: "Done",
             withActionButtonColor: UIColor.MKColor.Red.P100)
+        
         snackbar.show()
     }
 }
