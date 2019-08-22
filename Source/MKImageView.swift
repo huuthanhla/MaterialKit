@@ -123,5 +123,5 @@ public class MKImageView: UIImageView
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
         mkLayer.touchesMoved(touches: touches, withEvent: event)
-    }    
+    }
 }

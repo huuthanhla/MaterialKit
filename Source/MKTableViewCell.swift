@@ -83,11 +83,11 @@ public class MKTableViewCell : UITableViewCell {
         mkLayer.setRippleColor(color: self.rippleLayerColor)
     }
 
-    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         mkLayer.touchesBegan(touches: touches, withEvent: event)
     }
-    
+
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         mkLayer.touchesEnded(touches: touches, withEvent: event)

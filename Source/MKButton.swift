@@ -102,17 +102,17 @@ public class MKButton : UIButton
         super.touchesBegan(touches, with: event)
         mkLayer.touchesBegan(touches: touches, withEvent: event)
     }
-    
+
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         mkLayer.touchesEnded(touches: touches, withEvent: event)
     }
-    
+
     public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         mkLayer.touchesCancelled(touches: touches, withEvent: event)
     }
-    
+
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
         mkLayer.touchesMoved(touches: touches, withEvent: event)

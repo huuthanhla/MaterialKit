@@ -95,10 +95,6 @@ public class MKLayer: CALayer, CAAnimationDelegate {
         }
     }
 
-    public func animationDidStart(_ anim: CAAnimation) {
-        
-    }
-    
     public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         if anim == self.animation(forKey: "opacityAnim") {
             self.opacity = 0
@@ -264,7 +260,7 @@ public class MKLayer: CALayer, CAAnimationDelegate {
         self.opacity = 1
         if let rippleLayer = self.rippleLayer,
             let backgroundLayer = self.backgroundLayer,
-            let _ = self.superLayer {
+            let superLayer = self.superLayer {
             rippleLayer.removeAllAnimations()
             backgroundLayer.removeAllAnimations()
 
@@ -277,7 +273,9 @@ public class MKLayer: CALayer, CAAnimationDelegate {
 
             let moveAnim = CABasicAnimation(keyPath: "position")
             moveAnim.fromValue = NSValue(cgPoint: touchLocation)
-            moveAnim.toValue = NSValue(cgPoint: CGPoint(x: bounds.midX, y: bounds.midY))
+            moveAnim.toValue = NSValue(cgPoint: CGPoint(
+                x: superLayer.bounds.midX,
+                y: superLayer.bounds.midY))
             moveAnim.duration = rippleDuration
             moveAnim.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
 
@@ -300,7 +298,10 @@ public class MKLayer: CALayer, CAAnimationDelegate {
             let superLayerHeight = superLayer.bounds.height
             let center = CGPoint(x: superLayer.bounds.midX, y: superLayer.bounds.midY)
             let circleDiameter =
-                sqrt(powf(Float(superLayerWidth), 2) + powf(Float(superLayerHeight), 2)) * Float(rippleScaleRatio)
+                sqrt(
+                    powf(Float(superLayerWidth), 2)
+                        +
+                        powf(Float(superLayerHeight), 2)) * Float(rippleScaleRatio)
             let subX = center.x - CGFloat(circleDiameter) / 2
             let subY = center.y - CGFloat(circleDiameter) / 2
 

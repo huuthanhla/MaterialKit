@@ -88,6 +88,7 @@ public class MKCollectionViewCell: UICollectionViewCell {
         mkLayer.setRippleColor(color: self.rippleLayerColor)
     }
 
+    // MARK: Touch
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         mkLayer.touchesBegan(touches: touches, withEvent: event)
