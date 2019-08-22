@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBAction func cardViewClicked(sender: AnyObject) {
+    @IBAction func cardViewClicked(_ sender: AnyObject) {
         let snackbar = MKSnackbar(
             withTitle: "You clicked on CardView\nThis is a SnackBar :)",
             withDuration: 3.5,

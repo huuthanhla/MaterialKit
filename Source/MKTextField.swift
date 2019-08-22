@@ -63,7 +63,7 @@ public class MKTextField : UITextField {
     }
     @IBInspectable public var rippleLayerColor: UIColor = UIColor(hex: 0xEEEEEE) {
         didSet {
-            mkLayer.setRippleColor(rippleLayerColor)
+            mkLayer.setRippleColor(color: rippleLayerColor)
         }
     }
     @IBInspectable public var backgroundAnimationEnabled: Bool = true {
@@ -79,12 +79,12 @@ public class MKTextField : UITextField {
     }
 
     // floating label
-    @IBInspectable public var floatingLabelFont: UIFont = UIFont.boldSystemFontOfSize(10.0) {
+    @IBInspectable public var floatingLabelFont: UIFont = UIFont.boldSystemFont(ofSize: 10.0) {
         didSet {
             floatingLabel.font = floatingLabelFont
         }
     }
-    @IBInspectable public var floatingLabelTextColor: UIColor = UIColor.lightGrayColor() {
+    @IBInspectable public var floatingLabelTextColor: UIColor = UIColor.lightGray {
         didSet {
             floatingLabel.textColor = floatingLabelTextColor
         }
@@ -97,16 +97,16 @@ public class MKTextField : UITextField {
             if bottomBorderEnabled {
                 bottomBorderLayer = CALayer()
                 bottomBorderLayer?.frame = CGRect(x: 0, y: layer.bounds.height - 1, width: bounds.width, height: 1)
-                bottomBorderLayer?.backgroundColor = UIColor.MKColor.Grey.P500.CGColor
+                bottomBorderLayer?.backgroundColor = UIColor.MKColor.Grey.P500.cgColor
                 layer.addSublayer(bottomBorderLayer!)
             }
         }
     }
     @IBInspectable public var bottomBorderWidth: CGFloat = 1.0
-    @IBInspectable public var bottomBorderColor: UIColor = UIColor.lightGrayColor() {
+    @IBInspectable public var bottomBorderColor: UIColor = UIColor.lightGray {
         didSet {
             if bottomBorderEnabled {
-                bottomBorderLayer?.backgroundColor = bottomBorderColor.CGColor
+                bottomBorderLayer?.backgroundColor = bottomBorderColor.cgColor
             }
         }
     }
@@ -141,10 +141,10 @@ public class MKTextField : UITextField {
         mkLayer.rippleDuration = self.rippleDuration
         mkLayer.rippleEnabled = self.rippleEnabled
         mkLayer.backgroundAnimationEnabled = self.backgroundAnimationEnabled
-        mkLayer.setRippleColor(self.rippleLayerColor)
+        mkLayer.setRippleColor(color: self.rippleLayerColor)
 
         layer.borderWidth = 1.0
-        borderStyle = .None
+        borderStyle = .none
 
         // floating label
         floatingLabel = UILabel()
@@ -158,16 +158,16 @@ public class MKTextField : UITextField {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        bottomBorderLayer?.backgroundColor = isFirstResponder() ? tintColor.CGColor : bottomBorderColor.CGColor
-        let borderWidth = isFirstResponder() ? bottomBorderHighlightWidth : bottomBorderWidth
+        bottomBorderLayer?.backgroundColor = isFirstResponder ? tintColor.cgColor : bottomBorderColor.cgColor
+        let borderWidth = isFirstResponder ? bottomBorderHighlightWidth : bottomBorderWidth
         bottomBorderLayer?.frame = CGRect(x: 0, y: layer.bounds.height - borderWidth, width: layer.bounds.width, height: borderWidth)
 
         if !floatingPlaceholderEnabled {
             return
         }
 
-        if let text = text where text.isEmpty == false {
-            floatingLabel.textColor = isFirstResponder() ? tintColor : floatingLabelTextColor
+        if let text = text, text.isEmpty == false {
+            floatingLabel.textColor = isFirstResponder ? tintColor : floatingLabelTextColor
             if floatingLabel.alpha == 0 {
                 showFloatingLabel()
             }
@@ -176,59 +176,59 @@ public class MKTextField : UITextField {
         }
     }
 
-    override public func textRectForBounds(bounds: CGRect) -> CGRect {
-        let rect = super.textRectForBounds(bounds)
-        var newRect = CGRect(x: rect.origin.x + padding.width, y: rect.origin.y,
+    override public func textRect(forBounds bounds: CGRect) -> CGRect {
+        let rect = super.textRect(forBounds: bounds)
+        let newRect = CGRect(x: rect.origin.x + padding.width, y: rect.origin.y,
             width: rect.size.width - 2 * padding.width, height: rect.size.height)
 
         if !floatingPlaceholderEnabled {
             return newRect
         }
 
-        if let text = text where text.isEmpty == false {
+        if let text = text, text.isEmpty == false {
             let dTop = floatingLabel.font.lineHeight + floatingLabelBottomMargin
-            newRect = UIEdgeInsetsInsetRect(newRect, UIEdgeInsets(top: dTop, left: 0.0, bottom: 0.0, right: 0.0))
+            newRect.inset(by: UIEdgeInsets(top: dTop, left: 0.0, bottom: 0.0, right: 0.0))
         }
 
         return newRect
     }
 
-    override public func editingRectForBounds(bounds: CGRect) -> CGRect {
-        return textRectForBounds(bounds)
+    override public func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return textRect(forBounds: bounds)
     }
 
     // MARK: Touch
-    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-        mkLayer.touchesBegan(touches, withEvent: event)
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        mkLayer.touchesBegan(touches: touches, withEvent: event)
     }
-
-    public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
-        mkLayer.touchesEnded(touches, withEvent: event)
+    
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        mkLayer.touchesEnded(touches: touches, withEvent: event)
     }
-
-    public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        super.touchesCancelled(touches, withEvent: event)
-        mkLayer.touchesCancelled(touches, withEvent: event)
+    
+    public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        mkLayer.touchesCancelled(touches: touches, withEvent: event)
     }
-
-    public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesMoved(touches, withEvent: event)
-        mkLayer.touchesMoved(touches, withEvent: event)
+    
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        mkLayer.touchesMoved(touches: touches, withEvent: event)
     }
 }
 
 // MARK - private methods
 private extension MKTextField {
     private func setFloatingLabelOverlapTextField() {
-        let textRect = textRectForBounds(bounds)
-        var originX = textRect.origin.x
+        let textFieldRect = textRect(forBounds: self.bounds)
+        var originX = textFieldRect.origin.x
         switch textAlignment {
-        case .Center:
-            originX += textRect.size.width / 2 - floatingLabel.bounds.width / 2
-        case .Right:
-            originX += textRect.size.width - floatingLabel.bounds.width
+        case .center:
+            originX += textFieldRect.size.width / 2 - floatingLabel.bounds.width / 2
+        case .right:
+            originX += textFieldRect.size.width - floatingLabel.bounds.width
         default:
             break
         }
@@ -239,7 +239,7 @@ private extension MKTextField {
     private func showFloatingLabel() {
         let curFrame = floatingLabel.frame
         floatingLabel.frame = CGRect(x: curFrame.origin.x, y: bounds.height / 2, width: curFrame.width, height: curFrame.height)
-        UIView.animateWithDuration(0.45, delay: 0.0, options: .CurveEaseOut,
+        UIView.animate(withDuration: 0.45, delay: 0.0, options: .curveEaseOut,
             animations: {
                 self.floatingLabel.alpha = 1.0
                 self.floatingLabel.frame = curFrame
